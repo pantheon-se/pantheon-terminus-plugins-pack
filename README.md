@@ -65,8 +65,11 @@ Pantheon Upstreams gives you the ability to customize where and when your CMS cu
 all with little overhead. Pantheon also provides easy-to-apply updates with built-in testing environments 
 to ensure quick security fixes with confidence.
 
-The command that will list the sites your organization/user have control over is `terminus org:site:list --format=list`. Feel free to 
-run that command now if you want to see the list of sites before we proceed.
+To preview a list of sites, the command is:
+```
+terminus org:site:list --format=list
+```
+Feel free to run that command now if you want to see the list of sites before we proceed.
 
 
 ### Applying updates to multiple sites
