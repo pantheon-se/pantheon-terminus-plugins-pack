@@ -20,9 +20,7 @@ Instead of installing each plugin one-by-one, run the following commands to inst
 at once. The expected time is should take is under 2-minutes.
 
 ```
-cd ~
-curl -o https://github.com/Pantheon-SE/INSERT-FINAL-REPO-URL-HERE
-./terminus-plugin-mega-pack-setup.sh
+wget -O - https://github.com/Pantheon-SE/pantheon-terminus-plugins-pack/blob/master/terminus-plugin-mega-pack-setup.sh | bash
 ```
 ##### Plugins
 The list of plugins the script installs are the following:
