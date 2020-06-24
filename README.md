@@ -1,18 +1,18 @@
 # Pantheon Site Portfolio Management Guide
 
-The following example demonstrates usage of the Mass Update and Mass Run plugins to easily apply 
+The following example demonstrates usage of the Terminus plugins 'Mass Update' and 'Mass Run' to easily apply 
 upstream updates in bulk.
 
 When the responsbility of deploying code changes across a large number of sites is a technically 
 demanding task. Pantheon suggest you let the machines do those tasks for you!
 
-Our command-line tool called Terminus allows you to manage one or all sites in your organization with 
-powerful commands. Terminus also supports third-party plugins that extend it's functionality by 
-adding new commands. For instructions on how to install Terminus plugins, see Extend with Plugins (link here).
-
 ## Installation & Setup
+Our command-line tool called Terminus allows you to manage one or all sites in your organization with 
+powerful commands. Terminus also supports third-party plugins that extend it's functionality by adding 
+new commands. For instructions on how to install additional Terminus plugins, see [Extend with Plugins](https://pantheon.io/docs/terminus/plugins).
+
 ### Step 1. Install Terminus
-Terminus must be installed (link here) prior to running the following plugins starter script. Follow 
+[Terminus](https://pantheon.io/docs/terminus) must be installed prior to running the plugins starter script. Follow 
 those instructions before proceeding.
 
 ### Step 2. Add Plugins
@@ -54,7 +54,7 @@ Your team easily satistfies Step #1 by making any Git commit(s) to the upstream 
 Steps #2 & #3 are handled by our Terminus bulk commands listed below. We'll go over those commands in a moment.
 
 Step #4 is done by manual labor, automation, or a combination therein. If you want to automate this step, Pantheon has a service 
-called Managed Updates (insert link) that helps automate daily update checks by running visual QA tests with automatic screenshots and anlaysis.
+called [Managed Updates](https://pantheon.io/professional-services/managed-updates) that helps automate daily update checks by running visual QA tests with automatic screenshots and anlaysis.
 
 Step #5 is a wise habit to adopt. Terminus commands and plugins make triggering backups across multiple sites and each environment simple. No need 
 to visit each site one-by-one to do any of the above. That's the benefit of WebOps!
