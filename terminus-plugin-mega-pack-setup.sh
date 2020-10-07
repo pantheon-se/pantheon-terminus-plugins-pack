@@ -6,6 +6,7 @@ set -e
 # Check for Composer, before anything else.
 echo "\n"
 echo "Thanks for checking out this mega pack of Terminus plugins\n"
+terminus art fist
 sleep 2
 if ! [ -x "$(command -v composer)" ]; then
   echo "I noticed Composer is not installed. It's needed. I'll try to install Composer for you..."
@@ -35,6 +36,7 @@ cd ${TARGET_FOLDER}
 
 # Install Terminus plugins for effecient WebOps
 echo "Going to install Terminus plugins (via Composer)...\n"
+terminus art rocket
 
 # Terminus plugin list. Composer package string format.
 declare -a TERMINUS_PLUGINS=(
@@ -55,9 +57,10 @@ declare -a TERMINUS_PLUGINS=(
 for TERMINUS_PLUGIN in ${TERMINUS_PLUGINS[@]}
 do
   echo ""
+  echo ""
   echo "Installing plugin: ${TERMINUS_PLUGIN}"
   echo " -=-=-=-=-=-=-=-=-=-"
-  composer create-project -n --no-dev -d ~/.terminus/plugins $TERMINUS_PLUGIN
+  composer create-project -n --no-dev -d ~/.terminus/plugins $TERMINUS_PLUGIN &
 done
 
 # Run Terminus commands that'll help get things rolling
@@ -84,7 +87,9 @@ terminus self:clear-cache
 ## install Quicksilver recipes based on a named profile
 #terminus quicksilver:profile webops
 
+terminus art unicorn
 # Closing statements, help, and links.
+echo "\n"
 echo "\n"
 echo "All done. Your Terminus now has a bunch of useful plugins."
 echo "Official Terminus Plugin directory: https://pantheon.io/docs/terminus/plugins/directory"
