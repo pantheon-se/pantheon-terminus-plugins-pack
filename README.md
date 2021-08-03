@@ -54,7 +54,8 @@ Your team easily satisfies Step #1 by making any Git commits to the upstream rep
 Steps #2 & #3 are handled by our Terminus bulk commands listed below. We'll go over those commands in a moment.
 
 Step #4 is done by manual labor, automation, or a combination therein. If you want to automate this step, Pantheon has a service 
-called [Managed Updates](https://pantheon.io/professional-services/managed-updates) that helps automate daily update checks by running visual QA tests with automatic screenshots and anlaysis.
+called [Managed Updates](https://pantheon.io/professional-services/managed-updates) that helps automate daily update checks by 
+running visual QA tests with automatic screenshots and analysis.
 
 Step #5 is a wise habit to adopt. Terminus commands and plugins make triggering backups across multiple sites and each environment simple. No need 
 to visit each site one-by-one to do any of the above. That's the benefit of WebOps!
