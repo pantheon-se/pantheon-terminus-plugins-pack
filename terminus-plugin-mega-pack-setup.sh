@@ -6,33 +6,50 @@ set -e
 # Check for Composer, before anything else.
 echo "\n"
 echo "Thanks for checking out this mega pack of Terminus plugins\n"
+
+# Make sure Terminus is already install. If not, install it for us.
+if ! [ -x "$(command -v composer)" ]; then
+  echo "I noticed Terminus is not installed. It's needed. I'll try to install for you..."
+#  mkdir ${HOME}/terminus && cd ${HOME}/terminus
+#  curl -L https://github.com/pantheon-systems/terminus/releases/download/$(curl --silent "https://api.github.com/repos/pantheon-systems/terminus/releases/latest" | perl -nle'print $& while m{"tag_name": "\K.*?(?=")}g')/terminus.phar --output terminus
+#  chmod +x terminus
+#  sudo ln -s ${HOME}/terminus/terminus /usr/local/bin/terminus
+  # Double check if Composer is now available, otherwise bail.
+  if ! [ -x "$(command -v composer)" ]; then
+    echo 'Error: was not able to auto install. Please install it yourself and try again. https://pantheon.io/docs/terminus/install' >&2
+    exit 1
+  fi
+fi
+
 terminus art fist
 sleep 2
+
+# Install Composer if it doesn't already exist
 if ! [ -x "$(command -v composer)" ]; then
-  echo "I noticed Composer is not installed. It's needed. I'll try to install Composer for you..."
+  echo "I noticed Composer is not installed. It's needed. I'll try to install for you..."
   # Composer not found, so let's run the install steps for them
   curl -sS https://getcomposer.org/installer | php
   mv composer.phar /usr/local/bin/composer
   chmod +x /usr/local/bin/composer
   echo "Boosting Composer a little. Give me a moment."
-  # Global plugin for Composer speed boost (as of 2019)
+  # Global plugin for Composer speed boost (as of 2019; Composer v2 shouldn't need this)
   composer global require hirak/prestissimo
   # Double check if Composer is now available, otherwise bail.
   if ! [ -x "$(command -v composer)" ]; then
-    echo 'Error: was not able to auto install Composer. Please install it yourself and try again. https://getcomposer.org' >&2
+    echo 'Error: was not able to auto install. Please install it yourself and try again. https://getcomposer.org' >&2
     exit 1
   fi
 fi
 
 # Terminus plugins folder check & navigate
-TARGET_FOLDER="${HOME}/.terminus/plugins"
-if [ -d "${TARGET_FOLDER}" ]; then
-  echo "Found your existing \`${TARGET_FOLDER}\` folder."
+readonly TERMINUS_PLUGIN_FOLDER="${HOME}/.terminus/plugins"
+if [ -d "${TERMINUS_PLUGIN_FOLDER}" ]; then
+  echo "Found your existing \`${TERMINUS_PLUGIN_FOLDER}\` folder."
 else
-  echo "Didn't find an existing \`${TARGET_FOLDER}\` folder; we'll make it for you."
-  mkdir -p ${TARGET_FOLDER}
+  echo "Didn't find an existing \`${TERMINUS_PLUGIN_FOLDER}\` folder; we'll make it for you."
+  mkdir -p ${TERMINUS_PLUGIN_FOLDER}
 fi
-cd ${TARGET_FOLDER}
+cd ${TERMINUS_PLUGIN_FOLDER}
 
 # Install Terminus plugins for effecient WebOps
 echo "Going to install Terminus plugins (via Composer)...\n"
@@ -54,32 +71,41 @@ declare -a TERMINUS_PLUGINS=(
 )
 
 # Loop through each plugin in the list
-for TERMINUS_PLUGIN in ${TERMINUS_PLUGINS[@]}
-do
-  echo ""
-  echo ""
-  echo "Installing plugin: ${TERMINUS_PLUGIN}"
-  echo " -=-=-=-=-=-=-=-=-=-"
-  composer create-project -n --no-dev -d ~/.terminus/plugins $TERMINUS_PLUGIN &
-done
+#for TERMINUS_PLUGIN in ${TERMINUS_PLUGINS[@]}
+#do
+#  # Check if the plugin already exists
+#  # Check if the Terminus plugin already exists or not. Skip if it does.
+#  if [ -d "${pluginFolderName}/" ]; then
+#    echo "${pluginFolderName} plugin already exists. Skipping."
+#    echo "If you want to re-install this plugin, just delete the folder and run this script again."
+#  else
+#    echo ""
+#    echo ""
+#    echo "Installing plugin: ${TERMINUS_PLUGIN}"
+#    echo " -=-=-=-=-=-=-=-=-=-"
+#    composer create-project -n --no-dev -d ~/.terminus/plugins $TERMINUS_PLUGIN
+#  fi
+#done
+
+echo ${TERMINUS_PLUGINS[@]} | parallel -I% --max-args 1 --jobs 15 composer create-project -n --no-dev -d ~/.terminus/plugins %
 
 # Run Terminus commands that'll help get things rolling
 # Clear Terminus cache to pickup new plugins
 terminus self:clear-cache
 
-# TODO: Intall autocomplete
+# TODO: Install autocomplete
 #terminus autocomplete:install
 
 ## Quicksilver config check check & navigate
-#TARGET_FOLDER="${HOME}/.quicksilver"
-#if [ -d "${TARGET_FOLDER}" ]; then
-#  echo "Directory \`${TARGET_FOLDER}\` found."
+#TERMINUS_PLUGIN_FOLDER="${HOME}/.quicksilver"
+#if [ -d "${TERMINUS_PLUGIN_FOLDER}" ]; then
+#  echo "Directory \`${TERMINUS_PLUGIN_FOLDER}\` found."
 #else
-#  echo "Didn't find \`${TARGET_FOLDER}\` folder"
-#  mkdir -p ${TARGET_FOLDER}
-#  echo "Created directory \`${TARGET_FOLDER}\`"
+#  echo "Didn't find \`${TERMINUS_PLUGIN_FOLDER}\` folder"
+#  mkdir -p ${TERMINUS_PLUGIN_FOLDER}
+#  echo "Created directory \`${TERMINUS_PLUGIN_FOLDER}\`"
 #fi
-#cd ${TARGET_FOLDER}
+#cd ${TERMINUS_PLUGIN_FOLDER}
 #
 ## Quicksilver plugins
 #QUICKSILVER_CONFIG_REPO="ccharlton/cdddeebf6b0d8db4946bf76bb7550992"
