@@ -14,8 +14,8 @@ printf "Thanks for checking out this mega pack of Terminus plugins\n"
 #  curl -L https://github.com/pantheon-systems/terminus/releases/download/$(curl --silent "https://api.github.com/repos/pantheon-systems/terminus/releases/latest" | perl -nle'print $& while m{"tag_name": "\K.*?(?=")}g')/terminus.phar --output terminus
 #  chmod +x terminus
 #  sudo ln -s ${HOME}/terminus/terminus /usr/local/bin/terminus
-  # Double check if Terminus is now available, otherwise bail.
 #fi
+# Double check if Terminus is now available, otherwise bail.
 if ! [ -x "$(command -v terminus)" ]; then
   echo 'Error: was not able to auto install Terminus. Please install it yourself and try again. https://pantheon.io/docs/terminus/install' >&2
   exit 1
