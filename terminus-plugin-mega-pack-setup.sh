@@ -34,7 +34,7 @@ if ! [ -x "$(command -v composer)" ]; then
 fi
 # Double check if Composer is now available, otherwise bail.
 if ! [ -x "$(command -v composer)" ]; then
-  echo 'Error: was not able to auto install. Please install it yourself and try again. https://getcomposer.org' >&2
+  echo 'Error: was not able to auto install Composer. Please install it yourself and try again. https://getcomposer.org' >&2
   exit 1
 fi
 
