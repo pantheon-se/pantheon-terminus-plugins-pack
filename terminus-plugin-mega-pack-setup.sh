@@ -8,18 +8,17 @@ printf "\n"
 printf "Thanks for checking out this mega pack of Terminus plugins\n"
 
 # Make sure Terminus is already install. If not, install it for us.
-if ! [ -x "$(command -v terminus)" ]; then
-  echo "I noticed Terminus is not installed. It's needed. Please install Terminus first then run this script again. https://pantheon.io/docs/terminus/install"
+#if ! [ -x "$(command -v terminus)" ]; then
 #  echo "I noticed Terminus is not installed. It's needed. I'll try to install for you..."
 #  mkdir ${HOME}/terminus && cd ${HOME}/terminus
 #  curl -L https://github.com/pantheon-systems/terminus/releases/download/$(curl --silent "https://api.github.com/repos/pantheon-systems/terminus/releases/latest" | perl -nle'print $& while m{"tag_name": "\K.*?(?=")}g')/terminus.phar --output terminus
 #  chmod +x terminus
 #  sudo ln -s ${HOME}/terminus/terminus /usr/local/bin/terminus
-  # Double check if Composer is now available, otherwise bail.
-  if ! [ -x "$(command -v composer)" ]; then
-    echo 'Error: was not able to auto install Composer. Please install it yourself and try again. https://pantheon.io/docs/terminus/install' >&2
-    exit 1
-  fi
+  # Double check if Terminus is now available, otherwise bail.
+#fi
+if ! [ -x "$(command -v terminus)" ]; then
+  echo 'Error: was not able to auto install Terminus. Please install it yourself and try again. https://pantheon.io/docs/terminus/install' >&2
+  exit 1
 fi
 
 terminus art fist
