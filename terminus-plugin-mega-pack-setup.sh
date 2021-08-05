@@ -4,8 +4,8 @@
 set -e
 
 # Check for Composer, before anything else.
-echo "\n"
-echo "Thanks for checking out this mega pack of Terminus plugins\n"
+printf "\n"
+printf "Thanks for checking out this mega pack of Terminus plugins\n"
 
 # Make sure Terminus is already install. If not, install it for us.
 if ! [ -x "$(command -v terminus)" ]; then
@@ -17,7 +17,7 @@ if ! [ -x "$(command -v terminus)" ]; then
 #  sudo ln -s ${HOME}/terminus/terminus /usr/local/bin/terminus
   # Double check if Composer is now available, otherwise bail.
   if ! [ -x "$(command -v composer)" ]; then
-    echo 'Error: was not able to auto install. Please install it yourself and try again. https://pantheon.io/docs/terminus/install' >&2
+    echo 'Error: was not able to auto install Composer. Please install it yourself and try again. https://pantheon.io/docs/terminus/install' >&2
     exit 1
   fi
 fi
@@ -116,8 +116,7 @@ terminus self:clear-cache
 
 terminus art unicorn
 # Closing statements, help, and links.
-echo "\n"
-echo "\n"
+printf "\n\n"
 echo "All done. Your Terminus now has a bunch of useful plugins."
 echo "Official Terminus Plugin directory: https://pantheon.io/docs/terminus/plugins/directory"
 echo "Additional Terminus Plugin directory: https://github.com/terminus-plugin-project"
