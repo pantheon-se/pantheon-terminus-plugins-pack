@@ -48,12 +48,12 @@ if [ -d "${TERMINUS_PLUGIN_FOLDER}" ]; then
   echo "Found your existing \`${TERMINUS_PLUGIN_FOLDER}\` folder."
 else
   echo "Didn't find an existing \`${TERMINUS_PLUGIN_FOLDER}\` folder; we'll make it for you."
-  mkdir -p ${TERMINUS_PLUGIN_FOLDER}
+  mkdir -p "${TERMINUS_PLUGIN_FOLDER}"
 fi
-cd ${TERMINUS_PLUGIN_FOLDER}
+cd "${TERMINUS_PLUGIN_FOLDER}"
 
-# Install Terminus plugins for effecient WebOps
-echo "Going to install Terminus plugins (via Composer)...\n"
+# Install Terminus plugins for efficient WebOps
+printf "Going to install Terminus plugins (via Composer)...\n"
 terminus art rocket
 
 # Terminus plugin list. Composer package string format.
