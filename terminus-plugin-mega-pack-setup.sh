@@ -8,8 +8,9 @@ echo "\n"
 echo "Thanks for checking out this mega pack of Terminus plugins\n"
 
 # Make sure Terminus is already install. If not, install it for us.
-if ! [ -x "$(command -v composer)" ]; then
-  echo "I noticed Terminus is not installed. It's needed. I'll try to install for you..."
+if ! [ -x "$(command -v terminus)" ]; then
+  echo "I noticed Terminus is not installed. It's needed. Please install Terminus first then run this script again. https://pantheon.io/docs/terminus/install"
+#  echo "I noticed Terminus is not installed. It's needed. I'll try to install for you..."
 #  mkdir ${HOME}/terminus && cd ${HOME}/terminus
 #  curl -L https://github.com/pantheon-systems/terminus/releases/download/$(curl --silent "https://api.github.com/repos/pantheon-systems/terminus/releases/latest" | perl -nle'print $& while m{"tag_name": "\K.*?(?=")}g')/terminus.phar --output terminus
 #  chmod +x terminus
@@ -87,7 +88,7 @@ declare -a TERMINUS_PLUGINS=(
 #  fi
 #done
 
-echo ${TERMINUS_PLUGINS[@]} | parallel -I% --max-args 1 --jobs 15 composer create-project -n --no-dev -d ~/.terminus/plugins %
+echo "${TERMINUS_PLUGINS[@]}" | parallel -I% --max-args 1 --jobs 15 composer create-project -n --no-dev -d ~/.terminus/plugins %
 
 # Run Terminus commands that'll help get things rolling
 # Clear Terminus cache to pickup new plugins
