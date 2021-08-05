@@ -31,14 +31,11 @@ if ! [ -x "$(command -v composer)" ]; then
   curl -sS https://getcomposer.org/installer | php
   mv composer.phar /usr/local/bin/composer
   chmod +x /usr/local/bin/composer
-  echo "Boosting Composer a little. Give me a moment."
-  # Global plugin for Composer speed boost (as of 2019; Composer v2 shouldn't need this)
-  composer global require hirak/prestissimo
-  # Double check if Composer is now available, otherwise bail.
-  if ! [ -x "$(command -v composer)" ]; then
-    echo 'Error: was not able to auto install. Please install it yourself and try again. https://getcomposer.org' >&2
-    exit 1
-  fi
+fi
+# Double check if Composer is now available, otherwise bail.
+if ! [ -x "$(command -v composer)" ]; then
+  echo 'Error: was not able to auto install. Please install it yourself and try again. https://getcomposer.org' >&2
+  exit 1
 fi
 
 # Terminus plugins folder check & navigate
