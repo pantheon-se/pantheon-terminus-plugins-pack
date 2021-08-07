@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Exit on error
 set -e
@@ -41,9 +41,9 @@ fi
 # Terminus plugins folder check & navigate
 readonly TERMINUS_PLUGIN_FOLDER="${HOME}/.terminus/plugins"
 if [ -d "${TERMINUS_PLUGIN_FOLDER}" ]; then
-  echo "Found your existing \`${TERMINUS_PLUGIN_FOLDER}\` folder."
+  echo "Reusing your existing \`${TERMINUS_PLUGIN_FOLDER}\` folder."
 else
-  echo "Didn't find an existing \`${TERMINUS_PLUGIN_FOLDER}\` folder; we'll make it for you."
+  echo "Didn't find an existing \`${TERMINUS_PLUGIN_FOLDER}\` folder... I will make it for you."
   mkdir -p "${TERMINUS_PLUGIN_FOLDER}"
 fi
 cd "${TERMINUS_PLUGIN_FOLDER}"
@@ -52,47 +52,82 @@ cd "${TERMINUS_PLUGIN_FOLDER}"
 printf "Going to install Terminus plugins (via Composer)...\n"
 terminus art rocket
 
-# Terminus plugin list. Composer package string format.
-declare -a TERMINUS_PLUGINS=(
-  "pantheon-systems/terminus-build-tools-plugin:^2.0.0"
-  "pantheon-systems/terminus-composer-plugin:~1"
-  "pantheon-systems/terminus-mass-update:~1"
-  "pantheon-systems/terminus-quicksilver-plugin:~1"
-  "pantheon-systems/terminus-rsync-plugin:~1"
-  "pantheon-systems/terminus-site-clone-plugin:^2"
-#  "terminus-plugin-project/terminus-autocomplete-plugin:~2"
-  "terminus-plugin-project/terminus-filer-plugin:~2"
-  "terminus-plugin-project/terminus-pancakes-plugin:~2"
-  "terminus-plugin-project/terminus-site-status-plugin:~2"
-  "jnettik/terminus-mass-run:dev-master"
-)
+# Terminus plugins array. Values are Composer package string format.
+declare -a TERMINUS_PLUGINS
+
+# Check each plugin's destination folder so script doesn't exit prematurely if something is already installed
+if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-build-tools-plugin" ]; then
+  TERMINUS_PLUGINS[0]="pantheon-systems/terminus-build-tools-plugin:^2.0.0"
+fi
+
+if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-composer-plugin" ]; then
+  TERMINUS_PLUGINS[1]="pantheon-systems/terminus-composer-plugin:~1"
+fi
+
+if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-mass-update" ]; then
+  TERMINUS_PLUGINS[2]="pantheon-systems/terminus-mass-update:~1"
+fi
+
+if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-quicksilver-plugin" ]; then
+  TERMINUS_PLUGINS[3]="pantheon-systems/terminus-quicksilver-plugin:~1"
+fi
+
+if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-rsync-plugin" ]; then
+  TERMINUS_PLUGINS[4]="pantheon-systems/terminus-rsync-plugin:~1"
+fi
+
+if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-site-clone-plugin" ]; then
+  TERMINUS_PLUGINS[5]="pantheon-systems/terminus-site-clone-plugin:^2"
+fi
+
+if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-filer-plugin" ]; then
+  TERMINUS_PLUGINS[6]="terminus-plugin-project/terminus-filer-plugin:~2"
+fi
+
+if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-pancakes-plugin" ]; then
+  TERMINUS_PLUGINS[7]="terminus-plugin-project/terminus-pancakes-plugin:~2"
+fi
+
+if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-site-status-plugin" ]; then
+  TERMINUS_PLUGINS[8]="terminus-plugin-project/terminus-site-status-plugin:~2"
+fi
+
+if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-mass-run" ]; then
+  TERMINUS_PLUGINS[9]="jnettik/terminus-mass-run:dev-master"
+fi
+
+# TODO: Install autocomplete
+#terminus autocomplete:install
+#if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-autocomplete-plugin" ]; then
+#  TERMINUS_PLUGINS[10]="terminus-plugin-project/terminus-autocomplete-plugin:~2"
+#fi
 
 # Loop through each plugin in the list
-#for TERMINUS_PLUGIN in ${TERMINUS_PLUGINS[@]}
-#do
-#  # Check if the plugin already exists
-#  # Check if the Terminus plugin already exists or not. Skip if it does.
+# shellcheck disable=SC2068
+for TERMINUS_PLUGIN in ${TERMINUS_PLUGINS[@]}
+do
+  # Check if the plugin already exists
+  # Check if the Terminus plugin already exists or not. Skip if it does.
 #  if [ -d "${pluginFolderName}/" ]; then
 #    echo "${pluginFolderName} plugin already exists. Skipping."
 #    echo "If you want to re-install this plugin, just delete the folder and run this script again."
 #  else
-#    echo ""
-#    echo ""
-#    echo "Installing plugin: ${TERMINUS_PLUGIN}"
-#    echo " -=-=-=-=-=-=-=-=-=-"
-#    composer create-project -n --no-dev -d ~/.terminus/plugins $TERMINUS_PLUGIN
+    echo ""
+    echo ""
+    echo "Installing plugin: ${TERMINUS_PLUGIN}"
+    echo " -=-=-=-=-=-=-=-=-=-"
+    composer create-project -n --no-dev -d ~/.terminus/plugins $TERMINUS_PLUGIN
 #  fi
-#done
+done
 
-echo "${TERMINUS_PLUGINS[@]}" | parallel -I% --max-args 1 --jobs 15 composer create-project -n --no-dev -d ~/.terminus/plugins %
+# TODO: Try to bring back parallelization for install speed boost
+#echo "${TERMINUS_PLUGINS[@]}" | parallel -I% --max-args 1 --jobs 15 composer create-project -n --no-dev -d ~/.terminus/plugins %
 
 # Run Terminus commands that'll help get things rolling
 # Clear Terminus cache to pickup new plugins
 terminus self:clear-cache
 
-# TODO: Install autocomplete
-#terminus autocomplete:install
-
+# TODO: Quicksilver setup
 ## Quicksilver config check check & navigate
 #TERMINUS_PLUGIN_FOLDER="${HOME}/.quicksilver"
 #if [ -d "${TERMINUS_PLUGIN_FOLDER}" ]; then
@@ -114,6 +149,7 @@ terminus art unicorn
 # Closing statements, help, and links.
 printf "\n\n"
 echo "All done. Your Terminus now has a bunch of useful plugins."
+printf "\n"
 echo "Official Terminus Plugin directory: https://pantheon.io/docs/terminus/plugins/directory"
 echo "Additional Terminus Plugin directory: https://github.com/terminus-plugin-project"
 echo "Learn more Terminus commands: https://pantheon.io/docs/terminus"
