@@ -34,6 +34,7 @@ The list of plugins the script installs are the following:
  1. [terminus-rsync-plugin](https://github.com/pantheon-systems/terminus-rsync-plugin) -- provides a quick shortcut for rsync-ing files to and from a Pantheon site.
  1. [terminus-filer-plugin](https://github.com/terminus-plugin-project/terminus-filer-plugin) -- open Pantheon site using an SFTP client.
  1. [terminus-pancakes-plugin](https://github.com/terminus-plugin-project/terminus-pancakes-plugin) -- open a Pantheon site database using SQL GUI client.
+ 1. [terminus-site-debug](https://github.com/pantheon-systems/terminus-site-debug) -- download site logs from a specific environment, supports multiple containers, parse logs for debugging purposes.
 
 ##### Optional plugins
  1. [terminus-autocomplete-plugin](https://github.com/terminus-plugin-project/terminus-autocomplete-plugin) -- helps provide tab completion for commands. [Requires additional setup](https://github.com/terminus-plugin-project/terminus-autocomplete-plugin).
