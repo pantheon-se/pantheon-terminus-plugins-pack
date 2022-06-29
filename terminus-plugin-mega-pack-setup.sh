@@ -96,6 +96,10 @@ if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-mass-run" ]; then
   TERMINUS_PLUGINS[9]="jnettik/terminus-mass-run:dev-master"
 fi
 
+if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-site-debug" ]; then
+  TERMINUS_PLUGINS[10]="pantheon-systems/terminus-site-debug:1.0-alpha-2"
+fi
+
 # TODO: Install autocomplete
 #terminus autocomplete:install
 #if ! [ -d "${TERMINUS_PLUGIN_FOLDER}/terminus-autocomplete-plugin" ]; then
@@ -119,6 +123,10 @@ do
     composer create-project -n --no-dev -d ~/.terminus/plugins $TERMINUS_PLUGIN
 #  fi
 done
+
+if [ `terminus --version | awk  '{ print substr($2,1,1)}'` -eq 3 ]; then
+  terminus self:plugin:migrate
+fi
 
 # TODO: Try to bring back parallelization for install speed boost
 #echo "${TERMINUS_PLUGINS[@]}" | parallel -I% --max-args 1 --jobs 15 composer create-project -n --no-dev -d ~/.terminus/plugins %
